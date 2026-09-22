@@ -3,6 +3,8 @@ import { AuthService } from "./auth.service.js";
 import { RegisterDto } from "./dto/register.dto.js";
 import { LoginDto } from './dto/login.dto.js';
 import { JwtAuthGuard } from './jwt-auth-guard.js';
+import { RolesGuard } from './role.guard.js';
+import { Roles } from './role.decorator.js';
 
 @Controller('auth')
 export class AuthController {
@@ -26,4 +28,14 @@ export class AuthController {
       user: req.user,
     };
   }
+
+  @Get("admin")
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles("ADMIN")
+    getAdminData(@Req() req: any){
+      return {
+        message: "Welcome Admin",
+        user: req.user,
+      };
+    } 
 }
