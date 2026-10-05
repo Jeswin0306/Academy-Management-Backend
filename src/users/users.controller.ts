@@ -47,4 +47,4 @@ export class UsersController {
 }
 
 
-//checking its is verify or not
+//checking the verify commend is verify or not
