@@ -59,11 +59,29 @@ export class UsersService {
       createdAt: users.created_at,
       updatedAt: users.updated_at,
     });
-
-  if (!updatedUser) {
-    throw new NotFoundException("User not found");
+    if (!updatedUser) {
+      throw new NotFoundException("User not found");
+    }
+    return updatedUser;
   }
 
-  return updatedUser;
-}
+  async deleteUser(id : number){
+    const [ deleteUser ] = await db
+    .delete(users)
+    .where(eq(users.id, id))
+    .returning({
+      id : users.id,
+      name : users.name,
+      email : users.email,
+      role : users.role,
+    });
+
+    if(!deleteUser){
+      throw new NotFoundException("user not found");
+    }
+    return{
+      message : "User deleted successfully",
+      user : deleteUser,
+    };
+  }
 }

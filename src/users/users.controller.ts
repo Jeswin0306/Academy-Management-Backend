@@ -1,4 +1,4 @@
-import { Controller, Body, Get, Put, Param, ParseIntPipe, UseGuards } from '@nestjs/common';
+import { Controller, Body, Get, Put, Delete, Param, ParseIntPipe, UseGuards } from '@nestjs/common';
 import { UsersService } from './users.service.js';
 import { JwtAuthGuard } from '../auth/jwt-auth-guard.js';
 import { RolesGuard } from '../auth/role.guard.js';
@@ -36,4 +36,15 @@ export class UsersController {
   ) {
     return this.usersServices.updateUser(id, updateUserDto);
   }
+
+  @Delete(":id")
+  @Roles("ADMIN")
+  deleteUser(
+    @Param("id", ParseIntPipe) id :number,
+  ){
+    return this.usersServices.deleteUser(id);
+  }
 }
+
+
+//checking its is verify or not
